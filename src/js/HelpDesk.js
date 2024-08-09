@@ -1,7 +1,5 @@
 import TicketService from "./TicketService";
 import Ticket from "./Ticket";
-import TicketView from "./TicketView";
-import Form from "./Form";
 
 /**
  *  Основной класс приложения
@@ -176,21 +174,29 @@ export default class HelpDesk {
 
   getData() {
     TicketService.list((ticketsArr) => {
-      localStorage.setItem('tickets', JSON.stringify(ticketsArr));
-
-      const ls = JSON.parse(localStorage.getItem('tickets'));
-    
-      const ticketList = document.querySelector('.ticketList');
-      ticketList.textContent = '';
-      if (ls.length > 0) {
-        ticketList.textContent = '';
-        for (let i = 0; i < ls.length; i++) {
-          const ticket = new Ticket(ls[i]);
-          const ticketCont = this.renderTicketCont(ticket);
-          ticketList.append(this.renderTicketCont(ticket));      
-        }
+      if (typeof ticketsArr === 'number') {
+        const page = document.querySelector('.pageCont');
+        const mess = document.createElement('h1');
+        mess.textContent = 'Не обнаружен сервер на порту 3005';
+        page.textContent = '';
+        page.append(mess);
       } else {
-        ticketList.textContent = 'Пока нет записей';
+        localStorage.setItem('tickets', JSON.stringify(ticketsArr));
+
+        const ls = JSON.parse(localStorage.getItem('tickets'));
+      
+        const ticketList = document.querySelector('.ticketList');
+        ticketList.textContent = '';
+        if (ls.length > 0) {
+          ticketList.textContent = '';
+          for (let i = 0; i < ls.length; i++) {
+            const ticket = new Ticket(ls[i]);
+            const ticketCont = this.renderTicketCont(ticket);
+            ticketList.append(this.renderTicketCont(ticket));      
+          }
+        } else {
+          ticketList.textContent = 'Пока нет записей';
+        }
       }
     });
     

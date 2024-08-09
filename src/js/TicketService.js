@@ -10,7 +10,10 @@ export default class TicketService {
     })
       .then(res => res.json())
       .then(ticketsArr => callback(ticketsArr))
-      .catch(e => { throw new Error(`Ошибка получения всех тикетов: ${e}`) })
+      .catch(e => { 
+        callback(0);
+        throw new Error(`Ошибка получения всех тикетов: ${e}`);
+      })
   }
 
   static get(id, callback) {
