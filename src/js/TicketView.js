@@ -38,6 +38,10 @@ export default class TicketView {
     cbx.className = 'ticketCbx';
     cbx.type = 'checkbox';
     cbx.checked = this.ticket.status;
+
+    cbx.addEventListener('click', e => { console.log(e.target)
+      if (cbx.checked) console.log(1);
+    });
     
     return cbx;
   }

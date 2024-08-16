@@ -170,7 +170,6 @@ export default class HelpDesk {
     return btn;
   }
 
-  
 
   getData() {
     TicketService.list((ticketsArr) => {
@@ -315,6 +314,18 @@ export default class HelpDesk {
     cbx.className = 'ticketCbx';
     cbx.type = 'checkbox';
     cbx.checked = ticket.status;
+
+    cbx.addEventListener('change', e => {
+      const data = {status: cbx.checked}
+      TicketService.update(ticket.id, data, (res) => {
+        if (res.status === 200) {
+          const popup = document.querySelector('.popupCont');
+          popup.textContent = '';
+          popup.style.display = 'none';
+          this.getData();
+        }
+      });
+    });
     
     return cbx;
   }
